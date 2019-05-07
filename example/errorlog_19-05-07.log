@@ -1,0 +1,65 @@
+root@VivoPC-D8:/home/jsbien/GitHub/solr-ocrhighlighting-4Parkosz/example# docker-compose up -d
+ERROR: build path /home/jsbien/GitHub/solr-ocrhighlighting-4Parkosz/example/iiif-image either does not exist, is not accessible, or is not a valid URL.
+root@VivoPC-D8:/home/jsbien/GitHub/solr-ocrhighlighting-4Parkosz/example# exit
+jsbien@VivoPC-D8:~/GitHub/solr-ocrhighlighting-4Parkosz/example$ mkdir iiif-image
+jsbien@VivoPC-D8:~/GitHub/solr-ocrhighlighting-4Parkosz/example$ su
+Password: 
+root@VivoPC-D8:/home/jsbien/GitHub/solr-ocrhighlighting-4Parkosz/example# docker-compose up -d
+Creating network "example_default" with the default driver
+Creating volume "example_data-solr" with default driver
+Building solr
+Step 1/8 : FROM solr:7.6-alpine
+7.6-alpine: Pulling from library/solr
+
+
+
+
+
+
+
+
+
+Digest: sha256:c08f0b7206ca6e7d0a8e42ac85d43c4e042c97adca3fab9b037231690e730101
+Status: Downloaded newer image for solr:7.6-alpine
+ ---> 684246d07af0
+Step 2/8 : COPY ocrtest /opt/solr/server/solr/ocrtest
+ ---> 6ce88ae24841
+Step 3/8 : USER root
+ ---> Running in e6689f4d36e4
+Removing intermediate container e6689f4d36e4
+ ---> 95d28749f0c3
+Step 4/8 : RUN chown -R $SOLR_USER:$SOLR_USER /opt/solr/server/solr/ocrtest
+ ---> Running in 2414c91e4c94
+Removing intermediate container 2414c91e4c94
+ ---> a640d01c3405
+Step 5/8 : USER solr
+ ---> Running in abcb1186f981
+Removing intermediate container abcb1186f981
+ ---> 7d591ead5c14
+Step 6/8 : RUN echo "ENABLE_REMOTE_JMX_OPTS=true" >> /opt/solr/bin/solr.in.sh &&    echo "SOLR_HEAP=4g" >> /opt/solr/bin/solr.in.sh
+ ---> Running in 4bb87f83084f
+Removing intermediate container 4bb87f83084f
+ ---> caaa76a80e7a
+Step 7/8 : RUN bin/solr start -v &&    bin/solr create_core -c ocrtest &&    bin/solr stop
+ ---> Running in baed8e5dc153
+Waiting up to 180 seconds to see Solr running on port 8983 [-]  
+Started Solr server on port 8983 (pid=50). Happy searching!
+
+WARNING: Using _default configset with data driven schema functionality. NOT RECOMMENDED for production use.
+         To turn off: bin/solr config -c ocrtest -p 8983 -action set-user-property -property update.autoCreateFields -value false
+INFO  - 2019-05-07 13:10:14.615; org.apache.solr.util.configuration.SSLCredentialProviderFactory; Processing SSL Credential Provider chain: env;sysprop
+
+Created new core 'ocrtest'
+Sending stop command to Solr running on port 8983 ... waiting up to 180 seconds to allow Jetty process 50 to stop gracefully.
+Removing intermediate container baed8e5dc153
+ ---> 4f618fac949a
+Step 8/8 : USER solr
+ ---> Running in 5d9fb2a6d666
+Removing intermediate container 5d9fb2a6d666
+ ---> ef4a4ed2647d
+Successfully built ef4a4ed2647d
+Successfully tagged example_solr:latest
+WARNING: Image for service solr was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Building iiif-image
+ERROR: Cannot locate specified Dockerfile: Dockerfile
+root@VivoPC-D8:/home/jsbien/GitHub/solr-ocrhighlighting-4Parkosz/example# 
